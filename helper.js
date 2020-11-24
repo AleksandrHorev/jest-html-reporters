@@ -23,20 +23,20 @@ const addAttach = async (attach, description) => {
   const fileName = generateRandomString();
   if (typeof attach === "string") {
     const attachObject = { testPath, testName, filePath: attach, description };
-    await fs.writeJSON(`${dataDirPath}/${fileName}.json`, attachObject);
+    await fs.writeJSON(`${dataDirPath}/${fileName}.json`, attachObject, {mode: 0o765});
   }
 
   if (Buffer.isBuffer(attach)) {
     const path = `${attachDirPath}/${fileName}.jpg`;
     try {
-      await fs.writeFile(path, attach);
+      await fs.writeFile(path, attach, {mode: 0o765});
       const attachObject = {
         testPath,
         testName,
         fileName: `${fileName}.jpg`,
         description,
       };
-      await fs.writeJSON(`${dataDirPath}/${fileName}.json`, attachObject);
+      await fs.writeJSON(`${dataDirPath}/${fileName}.json`, attachObject, {mode: 0o765});
     } catch (err) {
       console.error(err);
       console.error(
@@ -54,7 +54,7 @@ const addMsg = async (message) => {
   const { testPath, testName } = getJestGlobalData();
   const fileName = generateRandomString();
   const attachObject = { testPath, testName, description: message };
-  await fs.writeJSON(`${dataDirPath}/${fileName}.json`, attachObject);
+  await fs.writeJSON(`${dataDirPath}/${fileName}.json`, attachObject, {mode: 0o765});
 };
 
 const getJestGlobalData = () => {
